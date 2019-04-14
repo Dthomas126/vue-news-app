@@ -1,7 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="news">
 
-   <select v-on:change="selectedTopic">
+   
+       <select v-on:change="selectedTopic">
      <option value="">Select a topic...</option>
      <option v-for="(topic,index) in topics" :key="index">{{topic.names}} </option>
    </select>
@@ -17,19 +18,23 @@
     
 
   
-    <ul>
-      <li class="card" v-for="(article,index) in articles" :key="index">
-        <div class="col-1">
+    <ul class="row">
+      <li class="news-list" v-for="(article,index) in articles" :key="index">
+
+        <section class="card">
+       <div class="col-1">
             <a class="url" :href="article.url">
               <img :src="article.urlToImage"/>
             </a>
        </div>
         <div class="col-2">
            <h2>{{article.title}}</h2>
-           <p>{{ article.author }} </p>
-           <p>{{ article.description}}</p>
+           <p>Author: {{ article.author }} </p><hr>
+           <p>Source: {{ article.description}}</p>
            <button class="card-button" v-on:click="article.url">Read full article</button>
          </div>
+        </section>
+      
       </li>
     </ul>
    
@@ -41,11 +46,14 @@
 <script>
 import axios from 'axios'
 
+const API_KEY = '46e3d27e0d0e4789b695d7134a1dd1cc';
+
 export default {
 
   name: 'HelloWorld',
  data(){
    return{
+
      articles: '',
      topics:[
        {names: 'bloomberg'},
@@ -55,9 +63,14 @@ export default {
        {names: 'bleacher-report'},
        {names: 'abc-news'}
      ],
-    select:''
-  
+    select:'cnn'
+   
    }
+ },
+ created(){
+    axios.get("https://newsapi.org/v2/top-headlines?sources="+this.select+"&apiKey="+API_KEY)
+    .then((response)=>(this.articles = response.data.articles)).catch((error)=>(console.log(error)))
+
  },
   methods:{
     getTopicName (id) {
@@ -65,13 +78,13 @@ export default {
   
 
  },
-   selectedTopic(topic){
+   selectedTopic(){
      this.select = event.target.value;
 
-     
-   axios.get("https://newsapi.org/v2/top-headlines?sources="+this.select+"&apiKey=46e3d27e0d0e4789b695d7134a1dd1cc")
-    .then((response)=>(this.articles = response.data.articles)).catch((error)=>(console.log(error)))
 
+
+     
+  
      console.log(this.select);
    }
  
@@ -84,6 +97,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 select{
   margin: 15px auto;
   padding: 10px;
@@ -97,23 +111,30 @@ select option{
   border-radius: 10px;
 }
 
-.hello{
+.news{
   width: 100%;
-  background-color: rgba(15, 17, 22, 0.925);
+ 
   margin: 0;
 }
 ul{
   padding: 0;
 }
+.news-list{
+  list-style-type: none;
+   width: 80%;
+  box-shadow: 18px 18px 0px 3px rgb(33, 52, 223);
+    margin: 5% auto;
+}
 .card{
+
   display: grid;
   grid-template-columns: 1fr 1fr;
   background-color:rgb(255, 255, 255);
-  margin: 0 auto;
-  padding: 20px;
-  border-bottom: 1px solid grey;
+
+  border:2px solid black;
+  width: 100%;
   grid-template-rows: 350px;
-  width: 60%;
+
 }
 .col-1{
   margin-right: 10px;
@@ -133,25 +154,25 @@ a{
   padding: 0;
 }
 .col-2{
-   
+   text-align: left;
    background-color: white;
- 
+  position: relative;
    padding: 10px;
 }
 .card-button{
   border:none;
-  padding: 10px;
-  width: 40%;
-  border-radius: 20px;
-  background-color: rgba(60, 60, 255, 0.753);
-  color: white;
+  font-weight: bold;
+  bottom: 5%;
+  left: 0;
+  position: absolute;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
   font-size: 1rem;
+ 
 }
 .card:hover{
-   transition:transform .5s;
-  transform:scale(1.01);
-   box-shadow: 1px 4px 4px 0 grey;
-    border: 1px solid grey;
+  transition: .3s;
+  transform:scale(1.02);
 
 }
 .nav{width: 90%; margin: 0; padding: 0;}
@@ -177,11 +198,9 @@ transition: .5s;
 
 
 
-.card-button:hover{
-  cursor: pointer;
- background-color: rgba(60, 60, 255, 1);
- transition: .5s;
-}
+
+
+
 @media screen and (max-width: 800px){
   .card{
     display: grid;

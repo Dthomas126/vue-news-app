@@ -1,14 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <ul>
-        <li>      <router-link to="/">Home</router-link>
-  </li>
-        <li>      <router-link to="/about">About</router-link>
-</li>
-      </ul>
-    </div>
+
+
+    <header>
+      <section class="jumbotron">
+        <div class="container text-center">
+   <h1 class="display-1">Your Daily News</h1>
+        <p class="lead">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit corporis vel expedita, officiis quaerat dignissimos possimus qui esse, libero iusto iste perferendis, ratione eveniet praesentium similique cumque. Doloribus, repellat aperiam.</p>
+      
+        </div>
+     </section>
+    </header>
+
+
     <router-view/>
+  
+  
+  
   </div>
 </template>
 
@@ -18,24 +26,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  color: #2c3e50;
+
 }
 #nav {
   text-align: center;
   padding: 30px;
-  background-color:  rgb(33, 52, 223);
+ 
 
 }
 
 #nav a {
   font-weight: bold;
-  color: white;
+  color: black;
   font-size: 1.3rem;
   text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: rgb(30, 224, 24);
+  color: rgb(33, 52, 223);
 }
 #nav ul li{
 display: inline;

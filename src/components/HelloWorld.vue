@@ -1,42 +1,35 @@
 <template>
-  <div class="news">
+  <div class="container p-5">
 
-   
-       <select v-on:change="selectedTopic">
-     <option value="">Select a topic...</option>
-     <option v-for="(topic,index) in topics" :key="index">{{topic.names}} </option>
-   </select>
-
-   <!-- <ul class="nav">
-     <li class="nav-item" v-for="(topic,index) in topics" :key="index" v-on:click="selectedTopic(topic)">{{topic.names}}</li>
-   </ul> -->
-<ul>
-  <li>
-
-  </li>
-</ul>
-    
-
-  
-    <ul class="row">
-      <li class="news-list" v-for="(article,index) in articles" :key="index">
-
-        <section class="card">
-       <div class="col-1">
-            <a class="url" :href="article.url">
-              <img :src="article.urlToImage"/>
-            </a>
-       </div>
-        <div class="col-2">
-           <h2>{{article.title}}</h2>
-           <p>Author: {{ article.author }} </p><hr>
-           <p>Source: {{ article.description}}</p>
-           <button class="card-button" v-on:click="article.url">Read full article</button>
-         </div>
-        </section>
+<div class="row">
+ 
+    <section  v-for="(article,index) in articles" :key="index" class=" col-sm-12 mb-4 ">
       
-      </li>
-    </ul>
+     <section class="card" style="border:none;">
+       <div class="row">
+         <div class="col">
+          <div class="card-body">
+                  <h2 class="card-title">{{article.title}}</h2>
+                  <p class="" v-if="article.author">Author: {{ article.author }} </p>
+                  <p class="card-text">Source: {{ article.description}}</p>
+                  <a v-on:click="article.url">Read full article</a>
+                </div>
+         </div>
+         <div class="col">
+          
+              <img class=" img-fluid" :src="article.urlToImage"/>
+    
+         </div>
+       </div>
+      <hr>
+      
+      
+
+      </section>
+  </section>
+</div>
+  
+    
    
 
   
@@ -55,14 +48,7 @@ export default {
    return{
 
      articles: '',
-     topics:[
-       {names: 'bloomberg'},
-       {names: 'bbc-news'},
-       {names: 'espn'},
-       {names: 'techcrunch'},
-       {names: 'bleacher-report'},
-       {names: 'abc-news'}
-     ],
+  
     select:'cnn'
    
    }
@@ -70,21 +56,13 @@ export default {
  created(){
     axios.get("https://newsapi.org/v2/top-headlines?sources="+this.select+"&apiKey="+API_KEY)
     .then((response)=>(this.articles = response.data.articles)).catch((error)=>(console.log(error)))
-
  },
   methods:{
     getTopicName (id) {
-      console.log(id.names);
-  
-
+    console.log(id.names);
  },
    selectedTopic(){
      this.select = event.target.value;
-
-
-
-     
-  
      console.log(this.select);
    }
  
@@ -98,124 +76,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-select{
-  margin: 15px auto;
-  padding: 10px;
-  width: 90%;
-  border-radius: 10px;
-  font-size: 1.1rem;
-}
-select option{
-  border:none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border-radius: 10px;
-}
 
-.news{
-  width: 100%;
- 
-  margin: 0;
-}
-ul{
-  padding: 0;
-}
-.news-list{
-  list-style-type: none;
-   width: 80%;
-  box-shadow: 18px 18px 0px 3px rgb(33, 52, 223);
-    margin: 5% auto;
-}
-.card{
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color:rgb(255, 255, 255);
-
-  border:2px solid black;
-  width: 100%;
-  grid-template-rows: 350px;
-
-}
-.col-1{
-  margin-right: 10px;
-   border-radius: 20px;
-}
-img{
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  /* box-shadow: 4px 8px 8px 0 grey; */
-
-}
-a{
-  
-  margin: 0;
-  padding: 0;
-}
-.col-2{
-   text-align: left;
-   background-color: white;
-  position: relative;
-   padding: 10px;
-}
-.card-button{
-  border:none;
-  font-weight: bold;
-  bottom: 5%;
-  left: 0;
-  position: absolute;
-  border-radius: 5px;
-  background-color: rgb(255, 255, 255);
-  font-size: 1rem;
- 
-}
-.card:hover{
-  transition: .3s;
-  transform:scale(1.02);
-
-}
-.nav{width: 90%; margin: 0; padding: 0;}
-
-.nav-item{list-style-type: none;
- display: inline; 
- margin: 0 6px;
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-font-size: 1rem;
-color: white;
-border-bottom:1px solid black;
-text-transform: uppercase;
-padding: 8px;
-
- }
- .nav-item:hover{
-background-color: white;
-color: blue;
-border-bottom:3px solid blue;
-transition: .5s;
-
- }
-
-
-
-
-
-
-@media screen and (max-width: 800px){
-  .card{
-    display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  margin: 0 auto;
-  width: 80%;
-}
-.card-button{
-  width: 100%;
-}
-.col-1,.col-2{
-  margin: 0 auto;
-}
-
-}
 
 </style>
